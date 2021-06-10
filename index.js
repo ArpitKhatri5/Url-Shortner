@@ -12,6 +12,7 @@ app.use(express.json({
 app.use('/', require('./Links/redirect'))
 app.use('/api/url', require('./Links/url'))
 app.use('/data',require('./data.js'))
+app.use('/requests',require('./requests.js'))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log(`server started, listening PORT ${PORT}`))

@@ -6,6 +6,7 @@ const validUrl = require('valid-url')
 const shortid = require('shortid')
 
 const Url = require('../models/Url')
+const Url2 = require('../models/Url2')
 
 const baseUrl = 'http:localhost:5000'
 router.post('/shorten', async(req,res)=>{
@@ -16,11 +17,24 @@ router.post('/shorten', async(req,res)=>{
     {
         let url = await Url.findOne({shortUrl :req.body.shortUrl})
         if(url){
+              //inserting into 2nd collection
+            url2 = new Url2({
+            shortUrl : req.body.shortUrl,
+            result : true,
+            created_at: new Date()
         
-            res.json(url)  
+        })
+        url2.save(); 
+        res.json(url)  
         }
         else{
-         
+            url2 = new Url2({
+                shortUrl : req.body.shortUrl,
+                result : false,
+                created_at: new Date()
+            
+            })
+            url2.save();            
             res.status(401).json('Invalid shortUrl') 
         }
 
