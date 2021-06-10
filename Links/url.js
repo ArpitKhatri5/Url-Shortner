@@ -8,8 +8,12 @@ const shortid = require('shortid')
 const Url = require('../models/Url')
 const Url2 = require('../models/Url2')
 
+
+const requestIp = require('request-ip');
+
+
 const baseUrl = 'http:localhost:5000'
-router.post('/shorten', async(req,res)=>{
+router.post('/shorten',async(req,res)=>{
     const {longUrl} = req.body
 
     //check if it is short url
@@ -21,7 +25,8 @@ router.post('/shorten', async(req,res)=>{
             url2 = new Url2({
             shortUrl : req.body.shortUrl,
             result : true,
-            created_at: new Date()
+            created_at: new Date(),
+            ip : String(requestIp.getClientIp(req))
         
         })
         url2.save(); 
