@@ -14,6 +14,9 @@ const requestIp = require('request-ip');
 
 const baseUrl = 'http:localhost:5000'
 router.post('/shorten',async(req,res)=>{
+    
+   try{
+
     const {longUrl} = req.body
 
     //check if it is short url
@@ -30,7 +33,8 @@ router.post('/shorten',async(req,res)=>{
         
         })
         url2.save(); 
-        res.json(url)  
+        res.json(url) 
+        res.end() 
         }
         else{
             url2 = new Url2({
@@ -41,11 +45,13 @@ router.post('/shorten',async(req,res)=>{
             })
             url2.save();            
             res.status(401).json('Invalid shortUrl') 
+            res.end()
         }
 
         
     }    
-    
+    else
+    {
     //check base url
     if(!validUrl.isUri(baseUrl)){
         return res.status(401).json('Invalid base URL')
@@ -110,6 +116,17 @@ router.post('/shorten',async(req,res)=>{
     else{
         res.status(401).json('Invalid longUrl')
     }
+}
+
+
+}
+
+catch(err){
+    console.error(err,"this error")
+    res.status(500).json('Server Error')
+}
+
+
 })
 
 module.exports = router
