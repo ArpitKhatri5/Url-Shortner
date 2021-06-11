@@ -1,5 +1,6 @@
 const express = require('express')
-const logger = require('../logging.js')
+const logger = require('../utils/error-logging.js')
+const debug = require('../utils/debug-logging.js')
 const router = express.Router()
 
 const validUrl = require('valid-url')
@@ -21,10 +22,12 @@ router.post('/shorten',async(req,res)=>{
 
     //check if it is short url
     if(req.body.shortUrl)
-    {
+    {   
+        debug("shortUrl detected: ")
         let url = await Url.findOne({shortUrl :req.body.shortUrl})
         if(url){
               //inserting into 2nd collection
+              debug("Present in DB ;storing the request in database ")
             url2 = new Url2({
             shortUrl : req.body.shortUrl,
             result : true,
@@ -38,6 +41,7 @@ router.post('/shorten',async(req,res)=>{
         res.end() 
         }
         else{
+            debug("Not Present in DB ;storing the request in database ")
             url2 = new Url2({
                 shortUrl : req.body.shortUrl,
                 result : false,
@@ -54,6 +58,7 @@ router.post('/shorten',async(req,res)=>{
     else
     {
     //check base url
+    debug("Recieved request for longUrl : ")
     if(!validUrl.isUri(baseUrl)){
         return res.status(401).json('Invalid base URL')
     }
@@ -74,7 +79,8 @@ router.post('/shorten',async(req,res)=>{
                 let dt = new Date( Date.now() - 24*60* 60 * 1000 * Number(expiry))  ;
                 
                 if(dt < url.created_at)
-                {
+                {   
+                    debug("Link expired; 404 returned ")
                     url.remove({"longUrl":longUrl})
                     res.status(404)
                     res.send("Oops! The link has expired");

@@ -1,6 +1,6 @@
 const express = require('express')
-const logger = require('../logging.js')
-
+const logger = require('../utils/error-logging.js')
+const debug = require('../utils/debug-logging.js')
 const router = express.Router()
 
 const Url = require('../models/Url')
