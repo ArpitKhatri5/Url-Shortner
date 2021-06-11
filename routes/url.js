@@ -2,7 +2,8 @@ const express = require('express')
 const logger = require('../utils/error-logging.js')
 const debug = require('../utils/debug-logging.js')
 const router = express.Router()
-
+const add_data = require('../migration/collection1.js')
+const add_data2 = require('../migration/collection2.js')
 const validUrl = require('valid-url')
 const shortid = require('shortid')
 
@@ -28,13 +29,8 @@ router.post('/shorten',async(req,res)=>{
         if(url){
               //inserting into 2nd collection
               debug("Present in DB ;storing the request in database ")
-            url2 = new Url2({
-            shortUrl : req.body.shortUrl,
-            result : true,
-            created_at: new Date(),
-            ip : String(requestIp.getClientIp(req))
-        
-        })
+            url2 = add_data(req.body.shortUrl,true,requestIp.getClientIp(req))
+
         url2.save(); 
         res.status(200);
         res.json(url) 
@@ -42,12 +38,7 @@ router.post('/shorten',async(req,res)=>{
         }
         else{
             debug("Not Present in DB ;storing the request in database ")
-            url2 = new Url2({
-                shortUrl : req.body.shortUrl,
-                result : false,
-                created_at: new Date()
-            
-            })
+            url2 = add_data(req.body.shortUrl,false,requestIp.getClientIp(req))
             url2.save();            
             res.status(401).json('Invalid shortUrl') 
             res.end()
@@ -106,15 +97,17 @@ router.post('/shorten',async(req,res)=>{
             }
             else{
                 const shortUrl = baseUrl + '/'+ urlCode
-                url = new Url({
-                    longUrl,
-                    shortUrl,
-                    urlCode,
-                    created_at: new Date(),
-                    request_count : "1",
-                    max_req : req.body.max_req,
-                    expire_time : req.body.expire_time
-                })
+                
+                url = add_data2(longUrl,shortUrl,urlCode,req.body.max_req,req.body.expire_time)
+                // url = new Url({
+                //     longUrl,
+                //     shortUrl,
+                //     urlCode,
+                //     created_at: new Date(),
+                //     request_count : "1",
+                //     max_req : req.body.max_req,
+                //     expire_time : req.body.expire_time
+                // })
                 await url.save()
                 res.status(200)
                 res.json(url)
