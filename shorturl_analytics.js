@@ -9,9 +9,10 @@ let q
 
 router.post('/',(req,res)=>{
     let days = req.body.days
-    //console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",days)
     
-    let x = Url2.find({"created_at":{$gt:new Date(Date.now() - 24*60*60 * 1000 * Number(days))}},  (err, docs)=> {
+    let x = Url2.find( {
+        $and : [ {"created_at":{$gt:new Date(Date.now() - 24*60*60 * 1000 * Number(days))}} , {"shortUrl" : req.body.shortUrl}]
+    } ,  (err, docs)=> {
         if (err){
             console.log(err);
         }

@@ -15,6 +15,7 @@ app.use('/',require('./Links/redirect'))
 app.use('/api/url', require('./Links/url'))
 app.use('/data', require('./data.js'))
 app.use('/requests', require('./requests.js'))
+app.use('/analytics', require('./shorturl_analytics.js'))
 
 
 
