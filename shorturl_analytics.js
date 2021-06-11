@@ -17,7 +17,7 @@ router.post('/',(req,res)=>{
             logger(err);
         }
         else{
-           // console.log("First function call : ", docs);
+           
             q =docs
         }
     });
