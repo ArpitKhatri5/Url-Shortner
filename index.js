@@ -1,6 +1,11 @@
 const express = require("express")
 const app = express()
 
+const Sentry = require('@sentry/node');
+
+Sentry.init({ dsn: "https://0b9c64357fa840b1a2f53277cdc80181@o285623.ingest.sentry.io/5796886"});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 const connection = require('./Database/db')
 connection.once('open', () => console.log('DB Connected'))
