@@ -1,4 +1,5 @@
 const express = require('express')
+const logger = require('../logging.js')
 
 const router = express.Router()
 
@@ -17,7 +18,7 @@ router.get('/:code', async(req, res)=>{
 
     }
     catch(err){
-        console.error(err,"this error")
+        logger(err);
         res.status(500).json('Server Error')
     }
 })

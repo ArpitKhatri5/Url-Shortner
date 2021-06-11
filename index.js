@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const logger = require('./logging.js')
 
 const Sentry = require('@sentry/node');
 
@@ -8,8 +9,8 @@ app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.errorHandler());
 
 const connection = require('./Database/db')
-connection.once('open', () => console.log('DB Connected'))
-connection.on('error', () => console.log('Error'))
+connection.once('open', () => logger('DB Connected'))
+connection.on('error', () => logger('Error'))
 
 
 
@@ -25,4 +26,4 @@ app.use('/analytics', require('./shorturl_analytics.js'))
 
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, console.log(`server started, listening PORT ${PORT}`))
+app.listen(PORT, logger(`server started, listening PORT ${PORT}`))

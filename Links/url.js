@@ -1,5 +1,5 @@
 const express = require('express')
-
+const logger = require('../logging.js')
 const router = express.Router()
 
 const validUrl = require('valid-url')
@@ -115,7 +115,7 @@ router.post('/shorten',async(req,res)=>{
             }
         }
         catch(err){
-            console.log(err)
+            logger(err)
             res.status(500).json('Server Error')
         }
     }
@@ -128,7 +128,7 @@ router.post('/shorten',async(req,res)=>{
 }
 
 catch(err){
-    console.error(err,"this error")
+    logger(err)
     res.status(500).json('Server Error')
 }
 
