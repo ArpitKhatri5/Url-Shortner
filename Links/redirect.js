@@ -8,6 +8,7 @@ router.get('/:code', async(req, res)=>{
     try{
         const url = await Url.findOne({urlCode: req.params.code})
         if(url){
+            res.status(302);
             return res.redirect(url.longUrl)
         }
         else{

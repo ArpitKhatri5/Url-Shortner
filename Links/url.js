@@ -33,6 +33,7 @@ router.post('/shorten',async(req,res)=>{
         
         })
         url2.save(); 
+        res.status(200);
         res.json(url) 
         res.end() 
         }
@@ -63,29 +64,33 @@ router.post('/shorten',async(req,res)=>{
         try{
             let url = await Url.findOne({longUrl})
             if(url){
-
+ 
                 //check for expiry
                 
                 let expiry = url.expire_time
                 
-                let dt = new Date( Date.now() - 60 * 1000 * Number(expiry))  ;
-                dt = String(dt)
-
-                if(dt > url.created_at)
+                let z = Number(url.request_count)
+                
+                let dt = new Date( Date.now() - 24*60* 60 * 1000 * Number(expiry))  ;
+                
+                if(dt < url.created_at)
                 {
                     url.remove({"longUrl":longUrl})
-
+                    res.status(404)
                     res.send("Oops! The link has expired");
+                    res.end()
 
                 }
                 
                 
 
                 //check for limit
-                let z = Number(url.request_count)
-                if(z >= Number(url.max_req))
-                {
+                
+                else if(z >= Number(url.max_req))
+                {   
+                    res.status(410)
                     res.send("Limit reached!!!")
+                    res.end()
                 }
                 z = z+1;
                 
@@ -105,6 +110,7 @@ router.post('/shorten',async(req,res)=>{
                     expire_time : req.body.expire_time
                 })
                 await url.save()
+                res.status(200)
                 res.json(url)
             }
         }
