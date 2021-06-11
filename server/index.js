@@ -5,9 +5,9 @@ const debug = require('../utils/debug-logging.js')
 
 const Sentry = require('@sentry/node');
 
-// Sentry.init({ dsn: "https://0b9c64357fa840b1a2f53277cdc80181@o285623.ingest.sentry.io/5796886"});
-// app.use(Sentry.Handlers.requestHandler());
-// app.use(Sentry.Handlers.errorHandler());
+Sentry.init({ dsn: "https://0b9c64357fa840b1a2f53277cdc80181@o285623.ingest.sentry.io/5796886"});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 const connection = require('../config/db')
 connection.once('open', () => debug('DB Connected'))
