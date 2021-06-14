@@ -64,7 +64,7 @@ const fun = async (req, res)=>{
 
             const expiry = url.expire_time;
 
-            let z = Number(url.request_count);
+            let request_count = Number(url.request_count);
 
             const dt= new Date( Date.now() - 24*60* 60 * 1000 * Number(expiry));
 
@@ -79,14 +79,14 @@ const fun = async (req, res)=>{
 
             // check for limit
 
-            else if (z >= Number(url.max_req)) {
+            else if (request_count >= Number(url.max_req)) {
               res.status(410);
               res.send('Limit reached!!!');
               res.end();
             }
-            z = z+1;
+            request_count = request_count+1;
 
-            url.request_count = String(z);
+            url.request_count = String(request_count);
             url.save();
             res.json(url);
           } else {
