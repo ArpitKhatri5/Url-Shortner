@@ -20,11 +20,7 @@ app.use(express.json({
 })) 
 app.use('/',require('../routes/redirect'))
 app.use('/api/url', require('../routes/url'))
-app.use('/data', require('../routes/requests/data.js'))
-app.use('/requests', require('../routes/requests/requests.js'))
-app.use('/analytics', require('../routes/requests/shorturl_analytics.js'))
-
-
+app.use('/request', require('../routes/requests/requests.js'))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, debug(`server started, listening PORT ${PORT}`))
