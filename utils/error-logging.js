@@ -1,5 +1,6 @@
-fun = (err) =>{
+const errorLog = (err) =>{
+  // eslint-disable-next-line no-console
   console.error(err);
 };
 
-module.exports = fun;
+module.exports = errorLog;

@@ -2,12 +2,12 @@ const logger = require('../utils/error-logging.js');
 const debug = require('../utils/debug-logging.js');
 
 
-const addData = require('../migration/collection1.js');
-const addData2 = require('../migration/collection2.js');
+const insertRequestData = require('../migration/requestUrl.js');
+const insertUrlData = require('../migration/coreUrl.js');
 const validUrl = require('valid-url');
 const shortid = require('shortid');
 
-const Url = require('../models/Url');
+const coreUrl = require('../models/coreUrl');
 
 const requestIp = require('request-ip');
 
@@ -20,11 +20,17 @@ const fun = async (req, res)=>{
     // check if it is short url
     if (req.body.shortUrl) {
       debug('shortUrl detected: ');
-      const url = await Url.findOne({shortUrl: req.body.shortUrl});
+      const url = await coreUrl.findOne({
+        shortUrl: req.body.shortUrl
+      });
       if (url) {
         // inserting into 2nd collection
         debug('Present in DB ;storing the request in database ');
-        url2 = addData(req.body.shortUrl, true, requestIp.getClientIp(req));
+        url2 = insertRequestData(
+          req.body.shortUrl, 
+          true, 
+          requestIp.getClientIp(req)
+          );
 
         url2.save();
         res.status(200);
@@ -32,7 +38,11 @@ const fun = async (req, res)=>{
         res.end();
       } else {
         debug('Not Present in DB ;storing the request in database ');
-        url2 = addData(req.body.shortUrl, false, requestIp.getClientIp(req));
+        url2 = insertRequestData(
+          req.body.shortUrl, 
+          false, 
+          requestIp.getClientIp(req)
+          );
         url2.save();
         res.status(401).json('Invalid shortUrl');
         res.end();
@@ -48,7 +58,7 @@ const fun = async (req, res)=>{
       // check long url
       if (validUrl.isUri(longUrl)) {
         try {
-          let url = await Url.findOne({longUrl});
+          let url = await coreUrl.findOne({longUrl});
           if (url) {
             // check for expiry
 
@@ -82,7 +92,13 @@ const fun = async (req, res)=>{
           } else {
             const shortUrl = baseUrl + '/'+ urlCode;
 
-            url = addData2(longUrl, shortUrl, urlCode, req.body.max_req, req.body.expire_time);
+            url = insertUrlData(
+              longUrl, 
+              shortUrl, 
+              urlCode, 
+              req.body.max_req,
+              req.body.expire_time
+              );
 
             await url.save();
             res.status(200);

@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 
-const {getData1, getData2, getData3} = require('../../controller/controller2.js');
-router.use('/data', getData1);
-router.use('/data2', getData2);
-router.use('/analytics', getData3);
+const {getUrlData, getRequestData, getAccessData} = require('../../controller/requestUrl.js');
+router.use('/data', getUrlData);
+router.use('/data2', getRequestData);
+router.use('/analytics', getAccessData);
 
 
 module.exports = router;

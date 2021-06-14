@@ -3,11 +3,13 @@ const logger = require('../utils/error-logging.js');
 
 const router = express.Router();
 
-const Url = require('../models/Url');
+const coreUrl = require('../models/coreUrl');
 
 router.get('/:code', async (req, res)=>{
   try {
-    const url = await Url.findOne({urlCode: req.params.code});
+    const url = await coreUrl.findOne({
+      urlCode: req.params.code
+    });
     if (url) {
       res.status(302);
       return res.redirect(url.longUrl);

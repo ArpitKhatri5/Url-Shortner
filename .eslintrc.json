@@ -15,7 +15,9 @@
         "no-console" : "warn",
         "no-alert" : "warn",
         "no-empty-function" : "warn",
-        "no-unused-vars" : "error"
+        "no-unused-vars" : "error",
+        "no-mixed-spaces-and-tabs" : "warn",
+        "max-len" : "off"
 
 
     }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URLSchema = new mongoose.Schema({
+const urlSchema = new mongoose.Schema({
   urlCode: String,
   longUrl: String,
   shortUrl: String,
@@ -11,4 +11,4 @@ const URLSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Url', URLSchema);
+module.exports = mongoose.model('Url', urlSchema);

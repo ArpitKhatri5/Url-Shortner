@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const fun = require('../controller/controller1.js');
+const fun = require('../controller/coreUrl.js');
 
 router.post('/shorten', fun);
 
