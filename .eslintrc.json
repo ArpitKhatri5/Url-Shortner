@@ -11,5 +11,12 @@
         "sourceType": "module"
     },
     "rules": {
+        "camelcase" : "error",
+        "no-console" : "warn",
+        "no-alert" : "warn",
+        "no-empty-function" : "warn",
+        "no-unused-vars" : "error"
+
+
     }
 }

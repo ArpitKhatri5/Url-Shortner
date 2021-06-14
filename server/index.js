@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const logger = require('../utils/error-logging.js');
 const debug = require('../utils/debug-logging.js');
 
 const Sentry = require('@sentry/node');

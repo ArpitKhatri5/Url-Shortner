@@ -2,8 +2,8 @@ const logger = require('../utils/error-logging.js');
 const debug = require('../utils/debug-logging.js');
 
 
-const add_data = require('../migration/collection1.js');
-const add_data2 = require('../migration/collection2.js');
+const addData = require('../migration/collection1.js');
+const addData2 = require('../migration/collection2.js');
 const validUrl = require('valid-url');
 const shortid = require('shortid');
 
@@ -24,7 +24,7 @@ const fun = async (req, res)=>{
       if (url) {
         // inserting into 2nd collection
         debug('Present in DB ;storing the request in database ');
-        url2 = add_data(req.body.shortUrl, true, requestIp.getClientIp(req));
+        url2 = addData(req.body.shortUrl, true, requestIp.getClientIp(req));
 
         url2.save();
         res.status(200);
@@ -32,7 +32,7 @@ const fun = async (req, res)=>{
         res.end();
       } else {
         debug('Not Present in DB ;storing the request in database ');
-        url2 = add_data(req.body.shortUrl, false, requestIp.getClientIp(req));
+        url2 = addData(req.body.shortUrl, false, requestIp.getClientIp(req));
         url2.save();
         res.status(401).json('Invalid shortUrl');
         res.end();
@@ -56,7 +56,7 @@ const fun = async (req, res)=>{
 
             let z = Number(url.request_count);
 
-            const dt = new Date( Date.now() - 24*60* 60 * 1000 * Number(expiry));
+            const dt= new Date( Date.now() - 24*60* 60 * 1000 * Number(expiry));
 
             if (dt < url.created_at) {
               debug('Link expired; 404 returned ');
@@ -82,7 +82,7 @@ const fun = async (req, res)=>{
           } else {
             const shortUrl = baseUrl + '/'+ urlCode;
 
-            url = add_data2(longUrl, shortUrl, urlCode, req.body.max_req, req.body.expire_time);
+            url = addData2(longUrl, shortUrl, urlCode, req.body.max_req, req.body.expire_time);
 
             await url.save();
             res.status(200);

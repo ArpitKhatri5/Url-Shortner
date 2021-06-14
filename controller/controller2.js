@@ -8,7 +8,7 @@ let q1;
 const getData1 = (req, res)=>{
   const days = req.body.days;
   debug('Sending data of last x days from collection');
-  const x = Url.find({'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, (err, docs)=> {
+  Url.find({'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, (err, docs)=> {
     if (err) {
       logger(err);
     } else {
@@ -26,7 +26,7 @@ const getData2 = (req, res)=>{
   const days = req.body.days;
   debug('Sending data of last x days from collection');
 
-  const x = Url2.find({'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, (err, docs)=> {
+  Url2.find({'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, (err, docs)=> {
     if (err) {
       logger(err);
     } else {
@@ -43,7 +43,7 @@ let q3;
 const getData3 = (req, res)=>{
   const days = req.body.days;
   debug('Sending All shortUrl access logs');
-  const x = Url2.find( {
+  Url2.find( {
     $and: [{'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, {'shortUrl': req.body.shortUrl}],
   }, (err, docs)=> {
     if (err) {
