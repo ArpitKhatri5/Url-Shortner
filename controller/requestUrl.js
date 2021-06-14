@@ -45,9 +45,9 @@ const getRequestData = (req, res)=>{
 
 const getAccessData = (req, res)=>{
   const days = req.body.days;
-  debug('Sending All shortUrl access logs');
+  debug('Sending All short_url access logs');
   requestUrl.find( {
-    $and: [{'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, {'shortUrl': req.body.shortUrl}],
+    $and: [{'created_at': {$gt: new Date(Date.now() - 24*60*60 * 1000 * Number(days))}}, {'short_url': req.body.short_url}],
   }, (err, docs)=> {
     if (err) {
       logger(err);

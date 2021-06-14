@@ -1,10 +1,10 @@
 const core_url = require('../models/coreUrl');
 
-const insertUrlData = (longUrl, shortUrl, urlCode, maximumRequests, expiryTime) => {
+const insertUrlData = (long_url, short_url, url_code, maximumRequests, expiryTime) => {
   return url = new core_url({
-    longUrl,
-    shortUrl,
-    urlCode,
+    long_url,
+    short_url,
+    url_code,
     created_at: new Date(),
     request_count: '1',
     max_req: maximumRequests,

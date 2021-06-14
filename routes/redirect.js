@@ -8,11 +8,11 @@ const coreUrl = require('../models/coreUrl');
 router.get('/:code', async (req, res)=>{
   try {
     const url = await coreUrl.findOne({
-      urlCode: req.params.code
+      url_code: req.params.code
     });
     if (url) {
       res.status(302);
-      return res.redirect(url.longUrl);
+      return res.redirect(url.long_url);
     } else {
       return res.status(404).json('No URL Found');
     }
