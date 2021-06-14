@@ -1,5 +1,5 @@
 fun = (x) =>{
-    console.log(x);
-}
+  console.log(x);
+};
 
-module.exports = fun
+module.exports = fun;

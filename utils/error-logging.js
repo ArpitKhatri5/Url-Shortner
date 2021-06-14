@@ -1,5 +1,5 @@
 fun = (err) =>{
-    console.error(err);
-}
+  console.error(err);
+};
 
-module.exports = fun
+module.exports = fun;
